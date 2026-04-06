@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简历信息采集 - AI工程师方向</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    border-bottom: 2px solid var(--primary);
+    margin-bottom: 32px;
+  }
+
+  header h1 {
+    font-size: 24px;
+    color: var(--gray-900);
+    margin-bottom: 8px;
+  }
+
+  header p {
+    color: var(--gray-500);
+    font-size: 14px;
+  }
+
+  /* Progress */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gray-200);
+    z-index: 100;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+    width: 0%;
+  }
+
+  /* Sections */
+  .section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--gray-200);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .section-num {
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .section-desc {
+    color: var(--gray-500);
+    font-size: 13px;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    background: var(--gray-50);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+  }
+
+  /* Form elements */
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field:last-child {
+    margin-bottom: 0;
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--gray-700);
+  }
+
+  label .required {
+    color: var(--danger);
+    margin-left: 2px;
+  }
+
+  label .hint {
+    font-weight: 400;
+    color: var(--gray-500);
+    font-size: 12px;
+    display: block;
+    margin-top: 2px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #fff;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* Checkbox & Radio groups */
+  .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border: 1px solid var(--gray-300);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .check-item:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+
+  .check-item input {
+    display: none;
+  }
+
+  .check-item.checked {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  /* Slider */
+  .slider-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slider-container input[type="range"] {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    background: var(--gray-200);
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    padding: 0;
+  }
+
+  .slider-container input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+  }
+
+  .slider-value {
+    min-width: 48px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 16px;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 4px;
+  }
+
+  /* Two column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  /* Actions */
+  .actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid var(--gray-200);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    z-index: 50;
+  }
+
+  .btn {
+    padding: 10px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #1d4ed8;
+  }
+
+  .btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-300);
+  }
+
+  .btn-secondary:hover {
+    background: var(--gray-200);
+  }
+
+  .btn-success {
+    background: var(--success);
+    color: #fff;
+  }
+
+  .btn-success:hover {
+    background: #16a34a;
+  }
+
+  /* Output */
+  #output-section {
+    display: none;
+  }
+
+  .output-box {
+    background: var(--gray-900);
+    color: #e5e7eb;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 600px;
+    overflow-y: auto;
+    line-height: 1.8;
+  }
+
+  .copy-hint {
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  /* Divider with text */
+  .sub-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 20px 0 12px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--gray-200);
+  }
+
+  .sub-title:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="container">
+  <header>
+    <h1>📋 简历真实情况采集</h1>
+    <p>请如实填写，我会根据你的真实情况重新评估和调整简历 · 所有数据仅本地处理</p>
+  </header>
+
+  <!-- Section 1: Vibe Coding 真实水平 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Vibe Coding 真实水平</div>
+    </div>
+    <div class="section-desc">这是智谱华章这个岗位最核心的考察点，请如实评估</div>
+
+    <div class="field">
+      <label>你用 AI 编辑器（Claude Code / Cursor / Copilot）大概多久了？<span class="required">*</span></label>
+      <select id="ai_tool_duration">
+        <option value="">请选择</option>
+        <option value="1-3个月">1-3个月</option>
+        <option value="3-6个月">3-6个月</option>
+        <option value="6-12个月">6-12个月</option>
+        <option value="1年以上">1年以上</option>
+        <option value="1.5年以上">1.5年以上</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>目前最常用的是哪个？<span class="required">*</span></label>
+      <div class="check-group" data-name="main_tool" data-multi="false">
+        <label class="check-item"><input type="radio" name="main_tool" value="Claude Code">Claude Code</label>
+        <label class="check-item"><input type="radio" name="main_tool" value="Cursor">Cursor</label>
+        <label class="check-item"><input type="radio" name="main_tool" value="VS Code Copilot">VS Code Copilot</label>
+        <label class="check-item"><input type="radio" name="main_tool" value="混合使用">混合使用</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>你怎么用 AI 写代码？请选择最符合你日常的描述<span class="required">*</span>
+        <span class="hint">诚实选择，这决定简历的定位策略</span>
+      </label>
+      <select id="coding_style">
+        <option value="">请选择</option>
+        <option value="level1">我描述需求，AI生成代码，我基本不看直接用，能跑就行</option>
+        <option value="level2">AI生成代码后，我会看一遍，理解大意，有明显问题会让AI改</option>
+        <option value="level3">我会拆解任务给AI，审查生成的代码，理解逻辑后手动微调</option>
+        <option value="level4">我设计架构和方案，让AI实现具体模块，会严格review代码质量</option>
+        <option value="level5">我有完整的AI编程方法论，会写详细prompt/CLAUDE.md，管理AI的上下文和输出质量</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>你写过 CLAUDE.md / .cursorrules / 系统提示词吗？<span class="required">*</span></label>
+      <select id="wrote_prompts">
+        <option value="">请选择</option>
+        <option value="没写过">没写过，都是直接对话</option>
+        <option value="复制别人的">复制过别人的模板</option>
+        <option value="自己写过简单的">自己写过简单的项目说明</option>
+        <option value="写过详细的">写过详细的，包含项目架构、命令、规范等</option>
+        <option value="持续维护迭代">持续维护和迭代，是我工作流的核心部分</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>遇到 AI 生成的代码有 bug 时，你通常怎么处理？</label>
+      <select id="debug_style">
+        <option value="">请选择</option>
+        <option value="反复让AI改">把错误信息发给AI，反复让它改直到能跑</option>
+        <option value="自己看报错定位">自己看报错信息定位问题，再让AI改具体地方</option>
+        <option value="自己能调试">自己打断点/加日志调试，了解问题根因后修复</option>
+        <option value="独立解决大部分">大部分问题自己能解决，AI只用来加速</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>你觉得离开 AI 工具后，你还能独立写代码吗？<span class="required">*</span>
+        <span class="hint">1=完全不能 / 10=完全没问题</span>
+      </label>
+      <div class="slider-container">
+        <input type="range" id="independent_coding" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value">
+        <span class="slider-value">5</span>
+      </div>
+      <div class="slider-labels">
+        <span>完全依赖AI</span>
+        <span>AI只是加速器</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: 技术深度真实评估 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">技术深度真实评估</div>
+    </div>
+    <div class="section-desc">每项技能给自己打个分，1-10分，不要虚报</div>
+
+    <div class="sub-title">前端</div>
+    <div class="two-col">
+      <div class="field">
+        <label>Vue 2/3 熟练度</label>
+        <div class="slider-container">
+          <input type="range" id="skill_vue" min="1" max="10" value="7" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">7</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>React（包括 Vibe Coding 经验）</label>
+        <div class="slider-container">
+          <input type="range" id="skill_react" min="1" max="10" value="3" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">3</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>TypeScript</label>
+        <div class="slider-container">
+          <input type="range" id="skill_ts" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">5</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>CSS / 页面还原能力</label>
+        <div class="slider-container">
+          <input type="range" id="skill_css" min="1" max="10" value="7" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">7</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-title">后端 / AI</div>
+    <div class="two-col">
+      <div class="field">
+        <label>Node.js</label>
+        <div class="slider-container">
+          <input type="range" id="skill_node" min="1" max="10" value="4" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">4</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Python</label>
+        <div class="slider-container">
+          <input type="range" id="skill_python" min="1" max="10" value="3" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">3</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>MongoDB / 数据库</label>
+        <div class="slider-container">
+          <input type="range" id="skill_db" min="1" max="10" value="3" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">3</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>AI 概念理解（RAG/Agent/MCP/Prompt）</label>
+        <div class="slider-container">
+          <input type="range" id="skill_ai" min="1" max="10" value="5" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-title">工程与协作</div>
+    <div class="two-col">
+      <div class="field">
+        <label>Git 版本管理</label>
+        <div class="slider-container">
+          <input type="range" id="skill_git" min="1" max="10" value="6" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">6</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>独立解决问题能力</label>
+        <div class="slider-container">
+          <input type="range" id="skill_problem" min="1" max="10" value="6" oninput="this.nextElementSibling.textContent=this.value">
+          <span class="slider-value">6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: 两叶科技项目真相 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">两叶科技项目真相</div>
+    </div>
+    <div class="section-desc">每个项目你到底做了什么？是你独立完成还是AI辅助？能不能面试答上来？</div>
+
+    <div class="sub-title">gpt_server（AI Agent 后端服务）</div>
+    <div class="field">
+      <label>你在这个项目中的角色？<span class="required">*</span></label>
+      <select id="gpt_server_role">
+        <option value="">请选择</option>
+        <option value="主要开发">我是主要开发者</option>
+        <option value="参与开发">我参与开发了部分模块</option>
+        <option value="用AI修bug">主要是用AI帮忙分析和修bug</option>
+        <option value="了解但没怎么改">了解项目但没怎么改代码</option>
+        <option value="没接触过">没实际接触过</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>MCP协议部分，你能讲清楚原理吗？</label>
+      <select id="mcp_understanding">
+        <option value="">请选择</option>
+        <option value="能详细讲">能详细讲清楚MCP是什么、怎么实现的</option>
+        <option value="大概知道">大概知道是做什么的，细节记不太清</option>
+        <option value="用AI做的">代码是AI写的，我知道功能但不太懂原理</option>
+        <option value="不了解">不了解</option>
+      </select>
+    </div>
+
+    <div class="sub-title">knowledge_engineer（知识卡片工程）</div>
+    <div class="field">
+      <label>你在这个项目中的角色？<span class="required">*</span></label>
+      <select id="ke_role">
+        <option value="">请选择</option>
+        <option value="主要负责">我是主要负责人，流程是我设计的</option>
+        <option value="执行卡片生产">我主要按流程执行卡片生产工作</option>
+        <option value="写脚本辅助">我用AI写了一些辅助脚本</option>
+        <option value="参与但不深">参与过但不深入</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>你做了多少张知识卡片？（大概数量）</label>
+      <input type="text" id="card_count" placeholder="例如：50+、100+ 或 不确定">
+    </div>
+
+    <div class="sub-title">skill-lab（Skill 评估）</div>
+    <div class="field">
+      <label>你在这个项目中的角色？<span class="required">*</span></label>
+      <select id="skill_lab_role">
+        <option value="">请选择</option>
+        <option value="搭建框架">我搭建了评估框架</option>
+        <option value="使用框架测试">我用框架做Skill测试和迭代</option>
+        <option value="AI搭建我使用">AI帮我搭的框架，我主要是用</option>
+        <option value="了解">了解但参与不多</option>
+      </select>
+    </div>
+
+    <div class="sub-title">electron-agent（桌面Agent应用）</div>
+    <div class="field">
+      <label>这个项目你能答上来多少？</label>
+      <select id="electron_depth">
+        <option value="">请选择</option>
+        <option value="架构细节都能讲">架构和实现细节都能讲清楚</option>
+        <option value="功能能讲技术难讲">功能能讲，技术实现细节讲不太清</option>
+        <option value="大致了解">大致了解做了什么</option>
+        <option value="AI帮忙做的">主要是AI帮忙做的，细节记不清</option>
+      </select>
+    </div>
+
+    <div class="sub-title">quantBuddy_assetRating_demo（React 评级Demo）</div>
+    <div class="field">
+      <label>这个 React 项目你到底了解多少？<span class="required">*</span></label>
+      <select id="react_depth">
+        <option value="">请选择</option>
+        <option value="能独立改">能独立修改和扩展</option>
+        <option value="看得懂">代码看得懂，让我改我能改</option>
+        <option value="AI写的我能讲">AI写的，但我理解业务和大致实现</option>
+        <option value="AI写的不太懂">全是AI写的，React我真不太懂</option>
+      </select>
+    </div>
+
+    <div class="sub-title">technical-patterns-lab（技术形态识别）</div>
+    <div class="field">
+      <label>Numba JIT 300倍优化这个，你能讲清楚吗？</label>
+      <select id="numba_understanding">
+        <option value="">请选择</option>
+        <option value="能讲原理">能讲清楚为什么快、怎么优化的</option>
+        <option value="知道结果">知道结果是快了，但原理讲不太清</option>
+        <option value="AI做的">这是AI做的优化，我知道用了Numba</option>
+        <option value="不了解">不太了解这个项目的技术细节</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Section 4: 面试准备 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">面试风险评估</div>
+    </div>
+    <div class="section-desc">面试官会追问的问题，你现在能答上来吗？</div>
+
+    <div class="field">
+      <label>如果面试官问"你写的最复杂的一段代码是什么"，你怎么回答？<span class="required">*</span></label>
+      <textarea id="hardest_code" placeholder="简单描述，比如：工作流系统的动态表单组件 / electron的WebSocket通信 / ..." rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <label>如果面试官让你现场写一段代码（不用AI），你能写什么水平的？<span class="required">*</span></label>
+      <select id="live_coding">
+        <option value="">请选择</option>
+        <option value="简单函数">简单函数没问题（数组操作、字符串处理等）</option>
+        <option value="组件开发">能手写一个Vue/React组件</option>
+        <option value="算法题">中等难度算法题可以</option>
+        <option value="比较吃力">手写代码比较吃力，需要查文档</option>
+        <option value="很困难">离开AI基本写不出来</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>如果面试官问"你怎么理解 Vibe Coding"，你会怎么说？</label>
+      <textarea id="vibe_coding_understanding" placeholder="用你自己的话说，不用很专业..." rows="3"></textarea>
+    </div>
+
+    <div class="field">
+      <label>你觉得自己面试时最大的弱项是什么？（可以多选）</label>
+      <div class="check-group" data-name="weakness" data-multi="true">
+        <label class="check-item"><input type="checkbox" name="weakness" value="算法题">算法题</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="八股文">前端八股文</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="系统设计">系统设计</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="英语">英语</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="表达能力">表达/讲故事能力</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="后端知识">后端知识不够深</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="React不熟">React不熟</label>
+        <label class="check-item"><input type="checkbox" name="weakness" value="年龄焦虑">年龄焦虑</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: 求职意向 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">求职意向与现实考量</div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label>目前税前月薪<span class="required">*</span></label>
+        <input type="text" id="current_salary" placeholder="例如：20K" value="20K">
+      </div>
+      <div class="field">
+        <label>期望税前月薪<span class="required">*</span></label>
+        <input type="text" id="expected_salary" placeholder="例如：30K">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>除了智谱华章，你还看了哪些公司/方向？</label>
+      <textarea id="other_targets" placeholder="例如：也在看蚂蚁的AI岗 / 只看了这一家 / 还在看传统前端岗保底..." rows="2"></textarea>
+    </div>
+
+    <div class="field">
+      <label>如果智谱华章不行，你的 Plan B 是什么？</label>
+      <select id="plan_b">
+        <option value="">请选择</option>
+        <option value="继续找AI方向">继续找其他AI方向的岗位</option>
+        <option value="退回前端">退回找前端开发岗位</option>
+        <option value="继续待着">继续在两叶科技待着</option>
+        <option value="没想好">还没想好</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>你的自媒体账号有多少粉丝？（大概总数）</label>
+      <input type="text" id="followers" placeholder="例如：500 / 2000 / 刚起步还没多少">
+    </div>
+
+    <div class="field">
+      <label>你的博客网站地址</label>
+      <input type="text" id="blog_url" placeholder="例如：https://aigongsheng.com">
+    </div>
+
+    <div class="field">
+      <label>还有什么你觉得重要但我没问到的？</label>
+      <textarea id="additional" placeholder="自由补充..." rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- Output Section -->
+  <div class="section" id="output-section">
+    <div class="section-header">
+      <div class="section-num">✓</div>
+      <div class="section-title">采集结果</div>
+    </div>
+    <p class="section-desc">请复制以下内容，发送给我，我会根据你的真实情况重新评估简历</p>
+    <div class="output-box" id="outputBox"></div>
+    <p class="copy-hint" id="copyHint">点击下方按钮复制</p>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button class="btn btn-secondary" onclick="clearForm()">清空</button>
+  <button class="btn btn-primary" onclick="generateOutput()">生成结果</button>
+  <button class="btn btn-success" id="copyBtn" style="display:none" onclick="copyOutput()">📋 复制结果</button>
+</div>
+
+<script>
+  // Toggle check items
+  document.querySelectorAll('.check-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const input = item.querySelector('input');
+      const group = item.closest('.check-group');
+      const isMulti = group.dataset.multi === 'true';
+
+      if (!isMulti) {
+        group.querySelectorAll('.check-item').forEach(i => i.classList.remove('checked'));
+        group.querySelectorAll('input').forEach(i => i.checked = false);
+      }
+
+      input.checked = !input.checked;
+      item.classList.toggle('checked', input.checked);
+      updateProgress();
+    });
+  });
+
+  // Track progress
+  function updateProgress() {
+    const fields = document.querySelectorAll('select, textarea, input[type="text"]');
+    let filled = 0;
+    fields.forEach(f => { if (f.value && f.value.trim()) filled++; });
+    const pct = Math.min(100, Math.round((filled / fields.length) * 100));
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  document.querySelectorAll('select, textarea, input').forEach(el => {
+    el.addEventListener('input', updateProgress);
+    el.addEventListener('change', updateProgress);
+  });
+
+  function getChecked(name) {
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(i => i.value);
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+  }
+
+  function generateOutput() {
+    // Validate required
+    const required = ['ai_tool_duration', 'coding_style', 'wrote_prompts', 'independent_coding',
+      'gpt_server_role', 'ke_role', 'skill_lab_role', 'react_depth',
+      'hardest_code', 'live_coding', 'current_salary', 'expected_salary'];
+
+    const mainTool = getChecked('main_tool');
+    if (mainTool.length === 0) {
+      alert('请选择你最常用的AI工具');
+      return;
+    }
+
+    for (const id of required) {
+      if (!val(id) || val(id).trim() === '') {
+        const label = document.querySelector(`[for="${id}"], #${id}`).closest('.field').querySelector('label');
+        alert('请填写: ' + (label ? label.textContent.replace('*', '').trim().substring(0, 30) : id));
+        document.getElementById(id).focus();
+        return;
+      }
+    }
+
+    const weaknesses = getChecked('weakness');
+
+    const codingLabels = {
+      level1: '描述需求→AI生成→不看直接用',
+      level2: 'AI生成后看一遍，有问题让AI改',
+      level3: '拆解任务给AI，审查代码后微调',
+      level4: '我设计架构，AI实现模块，我review',
+      level5: '完整方法论，写prompt/CLAUDE.md管理AI'
+    };
+
+    let output = `== 简历真实情况自评 ==\n`;
+    output += `生成时间: ${new Date().toLocaleDateString('zh-CN')}\n\n`;
+
+    output += `【一、Vibe Coding 水平】\n`;
+    output += `使用时长: ${val('ai_tool_duration')}\n`;
+    output += `主力工具: ${mainTool.join(', ')}\n`;
+    output += `编码方式: ${codingLabels[val('coding_style')] || val('coding_style')}\n`;
+    output += `Prompt工程: ${val('wrote_prompts')}\n`;
+    output += `Debug方式: ${val('debug_style')}\n`;
+    output += `独立编码能力: ${val('independent_coding')}/10\n\n`;
+
+    output += `【二、技能自评】\n`;
+    output += `Vue: ${val('skill_vue')}/10 | React: ${val('skill_react')}/10 | TS: ${val('skill_ts')}/10 | CSS: ${val('skill_css')}/10\n`;
+    output += `Node: ${val('skill_node')}/10 | Python: ${val('skill_python')}/10 | DB: ${val('skill_db')}/10 | AI概念: ${val('skill_ai')}/10\n`;
+    output += `Git: ${val('skill_git')}/10 | 解决问题: ${val('skill_problem')}/10\n\n`;
+
+    output += `【三、项目真实参与度】\n`;
+    output += `gpt_server: ${val('gpt_server_role')}\n`;
+    output += `MCP理解: ${val('mcp_understanding')}\n`;
+    output += `knowledge_engineer: ${val('ke_role')}\n`;
+    output += `卡片数量: ${val('card_count') || '未填'}\n`;
+    output += `skill-lab: ${val('skill_lab_role')}\n`;
+    output += `electron-agent: ${val('electron_depth')}\n`;
+    output += `React评级Demo: ${val('react_depth')}\n`;
+    output += `Numba优化: ${val('numba_understanding')}\n\n`;
+
+    output += `【四、面试准备】\n`;
+    output += `最复杂的代码: ${val('hardest_code')}\n`;
+    output += `现场编码水平: ${val('live_coding')}\n`;
+    output += `Vibe Coding理解: ${val('vibe_coding_understanding') || '未填'}\n`;
+    output += `自认弱项: ${weaknesses.length ? weaknesses.join(', ') : '未选'}\n\n`;
+
+    output += `【五、求职意向】\n`;
+    output += `当前薪资: ${val('current_salary')}\n`;
+    output += `期望薪资: ${val('expected_salary')}\n`;
+    output += `其他目标: ${val('other_targets') || '未填'}\n`;
+    output += `Plan B: ${val('plan_b')}\n`;
+    output += `自媒体粉丝: ${val('followers') || '未填'}\n`;
+    output += `博客地址: ${val('blog_url') || '未填'}\n`;
+    output += `补充说明: ${val('additional') || '无'}\n`;
+
+    document.getElementById('outputBox').textContent = output;
+    document.getElementById('output-section').style.display = 'block';
+    document.getElementById('copyBtn').style.display = 'inline-block';
+    document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function copyOutput() {
+    const text = document.getElementById('outputBox').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      document.getElementById('copyHint').textContent = '✅ 已复制到剪贴板！粘贴发给我即可';
+      document.getElementById('copyHint').style.color = '#22c55e';
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      document.getElementById('copyHint').textContent = '✅ 已复制！';
+    });
+  }
+
+  function clearForm() {
+    if (!confirm('确定要清空所有填写内容吗？')) return;
+    document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+    document.querySelectorAll('textarea').forEach(t => t.value = '');
+    document.querySelectorAll('input[type="text"]').forEach(i => { if (i.id !== 'current_salary') i.value = ''; });
+    document.querySelectorAll('input[type="range"]').forEach(r => { r.value = 5; r.nextElementSibling.textContent = '5'; });
+    document.querySelectorAll('.check-item').forEach(i => { i.classList.remove('checked'); i.querySelector('input').checked = false; });
+    document.getElementById('output-section').style.display = 'none';
+    document.getElementById('copyBtn').style.display = 'none';
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>

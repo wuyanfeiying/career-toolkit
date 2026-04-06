@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面试备战计划 - 智谱华章 AI工程师</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #22c55e;
+    --purple: #7c3aed;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--gray-50); color: var(--gray-900); line-height: 1.7;
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 24px 20px 40px; }
+  
+  header { text-align: center; padding: 28px 0 20px; margin-bottom: 28px; }
+  header h1 { font-size: 24px; margin-bottom: 6px; }
+  header p { color: var(--gray-500); font-size: 14px; }
+
+  /* Priority matrix */
+  .priority-matrix {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;
+  }
+  .priority-card {
+    border-radius: 12px; padding: 20px; border: 2px solid;
+  }
+  .p-critical { background: #fef2f2; border-color: #fca5a5; }
+  .p-high { background: #fefce8; border-color: #fde047; }
+  .p-medium { background: #eff6ff; border-color: #93c5fd; }
+  .p-low { background: #f0fdf4; border-color: #86efac; }
+  .priority-card h3 { font-size: 14px; margin-bottom: 8px; }
+  .priority-card ul { padding-left: 18px; font-size: 13px; }
+  .priority-card li { margin-bottom: 2px; }
+  .priority-label { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; color: #fff; display: inline-block; margin-bottom: 8px; }
+  .label-crit { background: var(--danger); }
+  .label-high { background: var(--warning); }
+  .label-med { background: var(--primary); }
+  .label-low { background: var(--success); }
+
+  @media (max-width: 600px) { .priority-matrix { grid-template-columns: 1fr; } }
+
+  /* Sections */
+  h2 {
+    font-size: 20px; margin: 36px 0 16px; padding: 12px 16px;
+    background: linear-gradient(135deg, var(--primary), var(--purple));
+    color: #fff; border-radius: 10px;
+  }
+  h2 .emoji { margin-right: 8px; }
+
+  .task-card {
+    background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--gray-200);
+    position: relative;
+  }
+  .task-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+  }
+  .task-title { font-size: 16px; font-weight: 700; }
+  .task-meta { display: flex; gap: 8px; align-items: center; }
+  .time-badge {
+    font-size: 11px; padding: 3px 10px; border-radius: 12px;
+    background: var(--gray-100); color: var(--gray-700); font-weight: 600;
+  }
+  .impact-badge {
+    font-size: 11px; padding: 3px 10px; border-radius: 12px; font-weight: 600; color: #fff;
+  }
+  .impact-high { background: var(--danger); }
+  .impact-med { background: var(--warning); }
+
+  .task-body { font-size: 14px; color: var(--gray-700); }
+  .task-body h4 { font-size: 14px; color: var(--gray-900); margin: 12px 0 6px; }
+  .task-body ul { padding-left: 18px; }
+  .task-body li { margin-bottom: 4px; }
+  .task-body code {
+    background: var(--gray-100); padding: 1px 6px; border-radius: 4px;
+    font-family: 'Consolas', monospace; font-size: 13px;
+  }
+
+  .step-box {
+    background: var(--gray-50); border-radius: 8px; padding: 14px 16px;
+    margin: 10px 0; border-left: 3px solid var(--primary);
+  }
+  .step-box.warn { border-left-color: var(--warning); background: #fefce8; }
+  .step-box.success { border-left-color: var(--success); background: #f0fdf4; }
+  .step-box.purple { border-left-color: var(--purple); background: #faf5ff; }
+
+  .resource-link {
+    display: inline-block; padding: 4px 12px; background: var(--primary-light);
+    border-radius: 6px; font-size: 13px; color: var(--primary); font-weight: 600;
+    text-decoration: none; margin: 2px 4px 2px 0;
+  }
+
+  /* Checklist */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 8px 12px; border-bottom: 1px solid var(--gray-100);
+    display: flex; align-items: flex-start; gap: 10px; font-size: 14px;
+    cursor: pointer; user-select: none;
+  }
+  .checklist li:hover { background: var(--gray-50); }
+  .checklist li input[type="checkbox"] {
+    margin-top: 4px; width: 18px; height: 18px; flex-shrink: 0;
+    accent-color: var(--primary);
+  }
+  .checklist li.done { color: var(--gray-500); text-decoration: line-through; }
+
+  /* Progress */
+  .progress-section {
+    position: sticky; top: 0; z-index: 50; background: #fff;
+    border-bottom: 1px solid var(--gray-200); padding: 12px 0;
+    margin-bottom: 20px;
+  }
+  .progress-inner { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+  .progress-bar-bg {
+    height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--primary), var(--success));
+    border-radius: 4px; transition: width 0.5s;
+  }
+  .progress-text {
+    display: flex; justify-content: space-between; font-size: 12px;
+    color: var(--gray-500); margin-top: 4px;
+  }
+
+  /* Code block */
+  .code-block {
+    background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px;
+    font-family: 'Consolas', 'Monaco', monospace; font-size: 13px;
+    overflow-x: auto; margin: 10px 0; line-height: 1.6;
+  }
+
+  .divider { height: 1px; background: var(--gray-200); margin: 32px 0; }
+
+  /* Daily plan */
+  .day-grid { display: grid; grid-template-columns: 80px 1fr; gap: 0; margin: 16px 0; }
+  .day-label {
+    padding: 12px 0; font-weight: 700; font-size: 14px; color: var(--primary);
+    border-right: 2px solid var(--primary); position: relative; text-align: center;
+  }
+  .day-label::after {
+    content: ""; position: absolute; right: -6px; top: 16px;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--primary);
+  }
+  .day-content { padding: 8px 0 20px 20px; font-size: 14px; }
+  .day-task {
+    padding: 6px 12px; background: var(--gray-50); border-radius: 6px;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .day-task .tag {
+    font-size: 11px; padding: 1px 8px; border-radius: 8px; font-weight: 600; color: #fff; flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-section">
+  <div class="progress-inner">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="totalProgress" style="width:0%"></div>
+    </div>
+    <div class="progress-text">
+      <span>备战进度</span>
+      <span id="progressLabel">0 / 0 完成</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<header>
+  <h1>⚔️ 面试备战计划</h1>
+  <p>目标：智谱华章 · AI工程师（Vibe Coding 全栈方向）· 每天 2-3 小时 · 总计约 2 周</p>
+</header>
+
+<!-- Priority Matrix -->
+<div class="priority-matrix">
+  <div class="priority-card p-critical">
+    <span class="priority-label label-crit">🔴 决定成败</span>
+    <h3>面试官必问 + 你目前答不好</h3>
+    <ul>
+      <li>MCP 协议原理（你说"AI做的不了解"）</li>
+      <li>项目故事讲述能力（你说"说不出来"）</li>
+      <li>Vibe Coding 方法论深度表达</li>
+    </ul>
+  </div>
+  <div class="priority-card p-high">
+    <span class="priority-label label-high">🟡 加分明显</span>
+    <h3>做了会拉开差距</h3>
+    <ul>
+      <li>写一篇 Vibe Coding 实战文章发博客</li>
+      <li>做一个小型 MCP 服务 Demo</li>
+      <li>了解智谱产品线和 CodeGeeX</li>
+    </ul>
+  </div>
+  <div class="priority-card p-medium">
+    <span class="priority-label label-med">🔵 查漏补缺</span>
+    <h3>有时间就准备</h3>
+    <ul>
+      <li>手写代码热身（防抖/深拷贝/Promise）</li>
+      <li>复习 Vue 3 核心原理</li>
+      <li>RAG/Agent 概念梳理</li>
+    </ul>
+  </div>
+  <div class="priority-card p-low">
+    <span class="priority-label label-low">🟢 锦上添花</span>
+    <h3>不影响大局</h3>
+    <ul>
+      <li>React 基础补课</li>
+      <li>算法题练习</li>
+      <li>系统设计学习</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== TASK 1 ==================== -->
+<h2><span class="emoji">1️⃣</span> 搞懂 MCP 协议（不能再说"AI做的不了解"）</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 1.1：阅读 MCP 官方文档</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 2小时</span>
+      <span class="impact-badge impact-high">决定成败</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <div class="step-box">
+      <strong>目标：</strong>面试时能用自己的话讲清楚 MCP 是什么、解决什么问题、怎么工作。
+    </div>
+
+    <h4>阅读路径（按顺序）：</h4>
+    <ul>
+      <li><a class="resource-link" href="https://modelcontextprotocol.io/introduction" target="_blank">MCP 官网介绍</a> — 理解"AI世界的USB-C"比喻</li>
+      <li><a class="resource-link" href="https://modelcontextprotocol.io/docs/concepts/architecture" target="_blank">架构概念</a> — Host / Client / Server 三角关系</li>
+      <li><a class="resource-link" href="https://modelcontextprotocol.io/docs/concepts/tools" target="_blank">Tools 概念</a> — 最重要，你公司就是用这个</li>
+      <li><a class="resource-link" href="https://modelcontextprotocol.io/docs/concepts/resources" target="_blank">Resources 概念</a> — 了解即可</li>
+    </ul>
+
+    <h4>读完后你需要能回答：</h4>
+    <ul class="checklist" data-group="mcp-read">
+      <li><input type="checkbox"> MCP 是什么？一句话描述</li>
+      <li><input type="checkbox"> MCP Host、Client、Server 分别是什么角色？</li>
+      <li><input type="checkbox"> Tool 和 Resource 的区别是什么？</li>
+      <li><input type="checkbox"> MCP 的传输层有哪两种？(stdio / HTTP+SSE)</li>
+      <li><input type="checkbox"> 你公司的 gpt_server 里 MCP 是怎么用的？（公式执行服务）</li>
+    </ul>
+  </div>
+</div>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 1.2：动手做一个最小 MCP Server</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 3小时</span>
+      <span class="impact-badge impact-high">决定成败</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <div class="step-box success">
+      <strong>为什么要动手：</strong>面试官一追问"你做过MCP吗"，你可以说"我自己写过一个MCP Server来理解协议，虽然不复杂但帮我理解了整个流程"。这比"我读过文档"强10倍。
+    </div>
+    
+    <h4>用 Vibe Coding 做！这本身就是展示你工作方式的案例</h4>
+    <p>用 Claude Code 或 Cursor，让AI帮你写一个简单的 MCP Server：</p>
+
+    <div class="code-block">
+// 示例目标：一个天气查询 MCP Server
+// 接入 MCP 协议，暴露一个 tool: get_weather(city)
+// 让 Claude Desktop / Cursor 能调用它
+
+// 技术栈：@modelcontextprotocol/sdk + Node.js
+// 参考：https://modelcontextprotocol.io/quickstart/server
+
+npm init -y
+npm install @modelcontextprotocol/sdk
+    </div>
+
+    <div class="step-box warn">
+      <strong>关键：</strong>虽然代码是AI帮你写的，但你要理解每一行在干什么。重点关注：
+      <ul>
+        <li>Server 怎么注册 Tool 的（tool name, description, input schema）</li>
+        <li>Tool handler 怎么返回结果的</li>
+        <li>Client 怎么发现和调用 Tool 的</li>
+      </ul>
+    </div>
+
+    <ul class="checklist" data-group="mcp-demo">
+      <li><input type="checkbox"> 跑通一个最小 MCP Server（哪怕是 hello world）</li>
+      <li><input type="checkbox"> 能在 Claude Desktop 或 Cursor 里调用你的 Server</li>
+      <li><input type="checkbox"> 能口述整个 MCP 调用流程（Client → Server → Tool → Response）</li>
+      <li><input type="checkbox"> 把代码推到 GitHub（面试时可以展示）</li>
+    </ul>
+  </div>
+</div>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 1.3：回到 gpt_server 项目，理解公司的 MCP 实现</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 1.5小时</span>
+      <span class="impact-badge impact-med">加分</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <p>你已经自己做了一个 MCP Demo，现在回去看公司项目就容易多了：</p>
+    <ul>
+      <li>打开 <code>gpt_server/src/</code>，找到 MCP 相关路由</li>
+      <li>看看 <code>/gptAgent/mcp</code> 这个路由做了什么</li>
+      <li>理解 <code>runMultiFormula</code> 这个 Tool 是怎么注册的</li>
+      <li>公式依赖解析和并发执行的逻辑是什么</li>
+    </ul>
+    <div class="step-box">
+      <strong>面试话术准备：</strong>"我们公司用 MCP 封装了一个公式执行服务，核心 Tool 叫 runMultiFormula——它支持批量执行多个金融公式，会自动解析公式之间的依赖关系，同一依赖层级的公式并发执行，有依赖的串行保序。这个服务端不是我从头开发的，但我为了深入理解协议，自己也做了一个 MCP Demo。"
+    </div>
+    <ul class="checklist" data-group="mcp-company">
+      <li><input type="checkbox"> 能说清楚公司 MCP 服务的功能（runMultiFormula）</li>
+      <li><input type="checkbox"> 能说清楚公式依赖解析的思路</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== TASK 2 ==================== -->
+<h2><span class="emoji">2️⃣</span> 练习讲项目故事（你说"说不出来"，必须解决）</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 2.1：用 STAR 法则准备 3 个项目故事</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 3小时</span>
+      <span class="impact-badge impact-high">决定成败</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <div class="step-box">
+      <strong>STAR 法则：</strong>Situation（背景）→ Task（任务）→ Action（你做了什么）→ Result（结果）<br>
+      每个故事控制在 <strong>2 分钟</strong>以内。
+    </div>
+
+    <h4>故事 1：知识卡片工程（你的王牌）</h4>
+    <div class="step-box success">
+      <strong>S：</strong>公司的AI Agent要准确回答投研问题，需要结构化的知识体系支撑<br>
+      <strong>T：</strong>我被指派为知识卡片的主要负责人，要从0建立卡片生产流程<br>
+      <strong>A：</strong>①梳理了金融业务公式链 ②设计了卡片结构和字段规范 ③开发了5类审计工具 ④打通了MongoDB和向量库的同步链路<br>
+      <strong>R：</strong>累计产出50+张卡片，建立的SOP和审计规则被团队沿用
+    </div>
+
+    <h4>故事 2：Skill 评估框架</h4>
+    <div class="step-box success">
+      <strong>S：</strong>团队在迭代AI Skill时没有系统化的评估手段，改完之后不知道是变好还是变差<br>
+      <strong>T：</strong>搭建一个可复用的评估框架<br>
+      <strong>A：</strong>①设计了单题验证和批量回归两种模式 ②建立训练/测试/验证三层数据集 ③对接多模型做对比测试 ④输出Trace报告<br>
+      <strong>R：</strong>每次Skill改动都能量化评估效果，部署到ArkClaw给客户使用
+    </div>
+
+    <h4>故事 3：Vibe Coding 交付评级 Demo（展示你的工作方式）</h4>
+    <div class="step-box success">
+      <strong>S：</strong>甲方需要一个智能资产评级系统的原型来验证需求，时间紧<br>
+      <strong>T：</strong>快速交付一个可演示的前端Demo<br>
+      <strong>A：</strong>①和甲方沟通梳理清楚需求 ②虽然我不熟React，但评估后认为React更适合这个场景 ③用Claude Code进行Vibe Coding，AI实现具体代码，我负责审查和业务逻辑把控<br>
+      <strong>R：</strong>短时间内交付了包含多维度评级、估值分析等功能的完整Demo，甲方认可后交给前端团队正式开发
+    </div>
+
+    <h4>练习方法：</h4>
+    <ul class="checklist" data-group="story">
+      <li><input type="checkbox"> 每个故事写下来，精简到300字以内</li>
+      <li><input type="checkbox"> 对着镜子/录音讲一遍，计时（每个不超过2分钟）</li>
+      <li><input type="checkbox"> 找朋友或家人当面试官，让他们追问</li>
+      <li><input type="checkbox"> 准备好每个故事的"追问应对"（技术细节、困难点、反思）</li>
+    </ul>
+  </div>
+</div>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 2.2：准备"最复杂的代码"这个问题</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 1小时</span>
+      <span class="impact-badge impact-high">决定成败</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <p>你自评"说不出来"，但其实你有东西可以讲。选一个你真正懂的：</p>
+
+    <div class="step-box">
+      <strong>推荐选项 A：小熊U宝的动态表单组件</strong><br>
+      你在凌雄技术封装的——根据配置动态渲染不同表单控件、支持校验规则、表单联动。这是真正你自己写的、能讲清楚每个细节的代码。
+    </div>
+
+    <div class="step-box">
+      <strong>推荐选项 B：多系统免登录方案</strong><br>
+      跨内部系统 + 钉钉轻应用 + 第三方iframe嵌入的统一免登录——设计到Cookie、Token、Axios拦截器、跨域处理。这个技术含量高且你熟悉。
+    </div>
+
+    <div class="step-box">
+      <strong>推荐选项 C（如果对方侧重AI方向）：卡片审计脚本</strong><br>
+      你开发的5类审计规则——如何检查卡片内公式引用是否真实存在、数据名是否一致、依赖关系是否成环。这更贴合AI工程方向。
+    </div>
+
+    <ul class="checklist" data-group="complex-code">
+      <li><input type="checkbox"> 选定一个主题，写下具体的技术挑战和解决思路</li>
+      <li><input type="checkbox"> 能画出代码的核心流程图（哪怕画在纸上）</li>
+      <li><input type="checkbox"> 能讲清楚"为什么这么设计"而不只是"怎么实现的"</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== TASK 3 ==================== -->
+<h2><span class="emoji">3️⃣</span> 写一篇 Vibe Coding 实战文章（发到博客）</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 3.1：输出一篇有深度的 Vibe Coding 文章</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 4小时</span>
+      <span class="impact-badge impact-med">加分明显</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <div class="step-box purple">
+      <strong>为什么要写：</strong><br>
+      ① 智谱华章JD里写"沉淀Prompt模板库、AI Coding Pattern"——你写文章就是在做这件事<br>
+      ② 面试时可以说"我不只是用，还在输出和分享"<br>
+      ③ 你的博客 aigongsheng.com 就是你的作品集
+    </div>
+
+    <h4>建议选题（选一个）：</h4>
+
+    <div class="step-box">
+      <strong>选题 A：《我用 Vibe Coding 做了一个 MCP Server —— 从 0 到 1 实战记录》</strong><br>
+      结合任务1.2你做的MCP Demo，记录整个过程：需求分析→选型→Prompt编写→AI生成→调试→部署。这篇文章一石二鸟：既展示Vibe Coding能力，又展示MCP理解。
+    </div>
+    <div class="step-box">
+      <strong>选题 B：《从前端到AI工程：我的Vibe Coding转型之路》</strong><br>
+      分享你从Vue前端转到知识工程/Skill评估的经历，包括工具选择、Prompt技巧、踩过的坑。这篇更个人化，更能打动面试官。
+    </div>
+
+    <ul class="checklist" data-group="article">
+      <li><input type="checkbox"> 确定选题和大纲</li>
+      <li><input type="checkbox"> 完成初稿（2000-3000字）</li>
+      <li><input type="checkbox"> 发布到博客 aigongsheng.com</li>
+      <li><input type="checkbox"> 同步到公众号/知乎（扩大曝光）</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== TASK 4 ==================== -->
+<h2><span class="emoji">4️⃣</span> 了解智谱华章（面试时展示诚意）</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 4.1：研究智谱产品线和 Vibe Coding 布局</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 2小时</span>
+      <span class="impact-badge impact-med">加分</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <h4>你需要了解的：</h4>
+    <ul>
+      <li><strong>ChatGLM / GLM-4</strong>：智谱的大模型产品线</li>
+      <li><strong>CodeGeeX</strong>：智谱的AI编程助手（类似Copilot），和你应聘的方向直接相关</li>
+      <li><strong>智谱清言</strong>：C端产品</li>
+      <li><strong>MaaS平台</strong>：开放API</li>
+    </ul>
+
+    <div class="step-box">
+      <strong>面试加分话术：</strong>"我了解到智谱在做CodeGeeX，而且在用自研GLM模型打造Vibe Coding体系——这意味着这个岗位能直接用到最新的模型能力，这是在其他公司做不到的。我特别期待能参与到这样的闭环中。"
+    </div>
+
+    <h4>建议去体验的：</h4>
+    <ul class="checklist" data-group="zhipu">
+      <li><input type="checkbox"> 注册并使用 CodeGeeX（VS Code 插件），体验后能说优缺点</li>
+      <li><input type="checkbox"> 试用智谱清言（chatglm.cn），和 ChatGPT/Claude 对比</li>
+      <li><input type="checkbox"> 读一篇智谱的技术博客或论文介绍</li>
+      <li><input type="checkbox"> 了解招聘者赵嘉莹的背景（LinkedIn/搜索），了解团队方向</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== TASK 5 ==================== -->
+<h2><span class="emoji">5️⃣</span> 手写代码热身（保底不丢分）</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 5.1：前端高频手写题复习</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 3小时（分散练习）</span>
+      <span class="impact-badge impact-med">保底</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <div class="step-box warn">
+      <strong>说明：</strong>这个岗位大概率不会考算法题，但可能让你现场写点简单代码。你自评"简单函数没问题"，那就确保简单函数真的没问题。不用刷力扣，练下面这些就够了。
+    </div>
+
+    <h4>必会（不看资料手写）：</h4>
+    <ul class="checklist" data-group="code-must">
+      <li><input type="checkbox"> 防抖函数 debounce</li>
+      <li><input type="checkbox"> 节流函数 throttle</li>
+      <li><input type="checkbox"> 深拷贝 deepClone（递归版）</li>
+      <li><input type="checkbox"> 数组去重（3种方法）</li>
+      <li><input type="checkbox"> Promise.all 简单实现</li>
+      <li><input type="checkbox"> 发布订阅模式 EventEmitter</li>
+    </ul>
+
+    <h4>了解即可（能讲思路）：</h4>
+    <ul class="checklist" data-group="code-know">
+      <li><input type="checkbox"> Vue 3 响应式原理（Proxy vs defineProperty）</li>
+      <li><input type="checkbox"> Vue 3 diff 算法核心思路</li>
+      <li><input type="checkbox"> async/await 和事件循环的关系</li>
+      <li><input type="checkbox"> CORS 跨域解决方案</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== TASK 6 ==================== -->
+<h2><span class="emoji">6️⃣</span> AI 概念梳理（你自评9/10，确保真的能讲清楚）</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">任务 6.1：核心 AI 概念口述练习</span>
+    <div class="task-meta">
+      <span class="time-badge">⏱ 2小时</span>
+      <span class="impact-badge impact-med">加分</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <p>你AI概念自评9分，但面试时需要能清晰地<strong>口述</strong>出来。对着录音讲一遍：</p>
+
+    <ul class="checklist" data-group="ai-concepts">
+      <li><input type="checkbox"> <strong>RAG</strong>：是什么？Flow是什么？和Fine-tuning的区别？你在知识卡片工程中怎么用的？</li>
+      <li><input type="checkbox"> <strong>AI Agent</strong>：什么是Agent？和普通chatbot区别？你公司的7阶段工作流属于Agent吗？</li>
+      <li><input type="checkbox"> <strong>Function Calling</strong>：是什么？OpenAI的tool_use和MCP的tool有什么关系？你在skill-lab里怎么测试的？</li>
+      <li><input type="checkbox"> <strong>Prompt Engineering</strong>：你怎么写系统提示词？有什么技巧？CLAUDE.md的作用？</li>
+      <li><input type="checkbox"> <strong>向量数据库</strong>：embedding是什么？为什么知识卡片要同步到向量库？余弦相似度的意义？</li>
+      <li><input type="checkbox"> <strong>LangChain</strong>：它解决什么问题？核心抽象（Chain/Agent/Tool/Memory）？</li>
+    </ul>
+
+    <div class="step-box">
+      <strong>练习方法：</strong>想象面试官问"你能讲讲RAG是什么吗"，你用自己的话说1分钟。录下来听一遍，看自己有没有逻辑清晰、有没有口头禅。
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== SCHEDULE ==================== -->
+<h2><span class="emoji">📅</span> 推荐时间安排（2周计划）</h2>
+
+<div class="task-card">
+  <div class="task-body">
+    <div class="step-box">
+      <strong>假设你每天能投入 2-3 小时</strong>（工作日晚上 + 周末多投入一点）
+    </div>
+
+    <div class="day-grid">
+      <div class="day-label">第1天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-crit">核心</span> 读 MCP 官方文档（2小时）</div>
+      </div>
+
+      <div class="day-label">第2天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-crit">核心</span> 用 Vibe Coding 做 MCP Demo（3小时）</div>
+      </div>
+
+      <div class="day-label">第3天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-crit">核心</span> 完善 MCP Demo + 回看公司 gpt_server（2小时）</div>
+      </div>
+
+      <div class="day-label">第4天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-crit">核心</span> 用 STAR 法则写3个项目故事（2小时）</div>
+      </div>
+
+      <div class="day-label">第5天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-crit">核心</span> 对镜练习讲故事 + 准备"最复杂代码"回答（2小时）</div>
+      </div>
+
+      <div class="day-label">第6天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-high">加分</span> 写 Vibe Coding 实战文章（初稿）（3小时）</div>
+      </div>
+
+      <div class="day-label">第7天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-high">加分</span> 文章完稿 + 发布博客和公众号（2小时）</div>
+      </div>
+
+      <div class="day-label">第8天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-med">充实</span> 了解智谱产品线 + 体验 CodeGeeX（2小时）</div>
+      </div>
+
+      <div class="day-label">第9天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-med">充实</span> AI概念口述练习——RAG/Agent/FC/Prompt（2小时）</div>
+      </div>
+
+      <div class="day-label">第10天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-med">充实</span> 手写代码热身（防抖/节流/深拷贝/Promise.all）（2小时）</div>
+      </div>
+
+      <div class="day-label">第11天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-med">充实</span> Vue 3 核心原理复习 + 手写代码练习（2小时）</div>
+      </div>
+
+      <div class="day-label">第12天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-high">综合</span> 模拟面试（找朋友或对着镜子完整走一遍）（2小时）</div>
+      </div>
+
+      <div class="day-label">第13天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-high">综合</span> 根据模拟面试暴露的弱点补课（2小时）</div>
+      </div>
+
+      <div class="day-label">第14天</div>
+      <div class="day-content">
+        <div class="day-task"><span class="tag label-low">放松</span> 检查简历最终版 + 整理作品链接 + 早点休息</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== GITHUB ==================== -->
+<h2><span class="emoji">🛠️</span> 面试前的作品集准备</h2>
+
+<div class="task-card">
+  <div class="task-header">
+    <span class="task-title">面试时能展示的东西</span>
+    <div class="task-meta">
+      <span class="impact-badge impact-med">加分</span>
+    </div>
+  </div>
+  <div class="task-body">
+    <ul class="checklist" data-group="portfolio">
+      <li><input type="checkbox"> <strong>博客网站</strong>：aigongsheng.com（确保能正常访问、文章新鲜）</li>
+      <li><input type="checkbox"> <strong>MCP Demo</strong>：推到GitHub，README写清楚（展示MCP理解+Vibe Coding能力）</li>
+      <li><input type="checkbox"> <strong>Vibe Coding 文章</strong>：发布在博客上（展示方法论和表达能力）</li>
+      <li><input type="checkbox"> <strong>自媒体账号</strong>：确保最近有更新，内容和AI相关</li>
+    </ul>
+    <div class="step-box success">
+      <strong>面试时说：</strong>"这是我的博客 aigongsheng.com，上面有我关于Vibe Coding实战的文章。这是我做的一个MCP Server Demo的GitHub仓库。我还运营一个AI工具科普账号，全平台3000多粉丝。"
+      <br><br>大多数候选人面试时只有一份简历。你有博客+文章+Demo+自媒体，这就是差异化。
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  // Checklist interactivity + progress tracking
+  document.querySelectorAll('.checklist li').forEach(li => {
+    const cb = li.querySelector('input[type="checkbox"]');
+    li.addEventListener('click', (e) => {
+      if (e.target === cb) return;
+      cb.checked = !cb.checked;
+      li.classList.toggle('done', cb.checked);
+      updateTotalProgress();
+      saveProgress();
+    });
+    cb.addEventListener('change', () => {
+      li.classList.toggle('done', cb.checked);
+      updateTotalProgress();
+      saveProgress();
+    });
+  });
+
+  function updateTotalProgress() {
+    const all = document.querySelectorAll('.checklist input[type="checkbox"]');
+    const done = document.querySelectorAll('.checklist input[type="checkbox"]:checked');
+    const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+    document.getElementById('totalProgress').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${done.length} / ${all.length} 完成 (${pct}%)`;
+  }
+
+  function saveProgress() {
+    const state = {};
+    document.querySelectorAll('.checklist').forEach(list => {
+      const group = list.dataset.group;
+      state[group] = Array.from(list.querySelectorAll('input[type="checkbox"]')).map(cb => cb.checked);
+    });
+    try { localStorage.setItem('interview-prep-progress', JSON.stringify(state)); } catch(e) {}
+  }
+
+  function loadProgress() {
+    try {
+      const state = JSON.parse(localStorage.getItem('interview-prep-progress'));
+      if (!state) return;
+      document.querySelectorAll('.checklist').forEach(list => {
+        const group = list.dataset.group;
+        if (!state[group]) return;
+        const cbs = list.querySelectorAll('input[type="checkbox"]');
+        state[group].forEach((checked, i) => {
+          if (cbs[i]) {
+            cbs[i].checked = checked;
+            cbs[i].closest('li').classList.toggle('done', checked);
+          }
+        });
+      });
+      updateTotalProgress();
+    } catch(e) {}
+  }
+
+  loadProgress();
+  updateTotalProgress();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面试准备指南 - 智谱华章 AI工程师</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #22c55e;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--gray-50); color: var(--gray-900); line-height: 1.7;
+  }
+  .container { max-width: 820px; margin: 0 auto; padding: 24px 20px 40px; }
+  header { text-align: center; padding: 28px 0 20px; border-bottom: 2px solid var(--primary); margin-bottom: 28px; }
+  header h1 { font-size: 22px; margin-bottom: 4px; }
+  header p { color: var(--gray-500); font-size: 13px; }
+  .card {
+    background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid var(--gray-200);
+  }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-100); }
+  .badge {
+    padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; color: #fff; flex-shrink: 0;
+  }
+  .badge-danger { background: var(--danger); }
+  .badge-warning { background: var(--warning); }
+  .badge-success { background: var(--success); }
+  .badge-primary { background: var(--primary); }
+  .card-title { font-size: 17px; font-weight: 700; }
+  .qa { margin-bottom: 18px; }
+  .qa:last-child { margin-bottom: 0; }
+  .q {
+    font-weight: 700; color: var(--primary); font-size: 14px; margin-bottom: 6px;
+    display: flex; align-items: flex-start; gap: 6px;
+  }
+  .q::before { content: "Q"; background: var(--primary); color: #fff; border-radius: 4px; padding: 0 6px; font-size: 11px; flex-shrink: 0; margin-top: 2px; }
+  .a {
+    background: var(--gray-50); border-radius: 8px; padding: 12px 16px; font-size: 14px;
+    border-left: 3px solid var(--success); color: var(--gray-700);
+  }
+  .a strong { color: var(--gray-900); }
+  .warn {
+    background: #fef3c7; border-radius: 8px; padding: 10px 14px; font-size: 13px;
+    border-left: 3px solid var(--warning); margin-top: 8px; color: #92400e;
+  }
+  .danger-zone {
+    background: #fef2f2; border-radius: 8px; padding: 10px 14px; font-size: 13px;
+    border-left: 3px solid var(--danger); margin-top: 8px; color: #991b1b;
+  }
+  .tip {
+    background: #eff6ff; border-radius: 8px; padding: 10px 14px; font-size: 13px;
+    border-left: 3px solid var(--primary); margin-top: 8px; color: #1e40af;
+  }
+  h2 { font-size: 18px; margin: 28px 0 16px; color: var(--gray-900); padding-left: 12px; border-left: 4px solid var(--primary); }
+  .divider { height: 1px; background: var(--gray-200); margin: 32px 0; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 4px; font-size: 14px; }
+  .score-bar { display: flex; gap: 4px; margin: 12px 0; }
+  .score-item {
+    flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  }
+  .score-green { background: #dcfce7; color: #166534; }
+  .score-yellow { background: #fef9c3; color: #854d0e; }
+  .score-red { background: #fee2e2; color: #991b1b; }
+  .timeline { border-left: 2px solid var(--primary); padding-left: 20px; margin: 16px 0; }
+  .timeline-item { margin-bottom: 16px; position: relative; }
+  .timeline-item::before {
+    content: ""; position: absolute; left: -25px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--primary);
+  }
+  .timeline-title { font-weight: 700; font-size: 14px; }
+  .timeline-desc { font-size: 13px; color: var(--gray-500); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+  .mini-card {
+    background: var(--gray-50); border-radius: 8px; padding: 14px; border: 1px solid var(--gray-200);
+  }
+  .mini-card h4 { font-size: 13px; color: var(--gray-500); margin-bottom: 4px; }
+  .mini-card p { font-size: 15px; font-weight: 700; }
+  .collapsible { cursor: pointer; user-select: none; }
+  .collapsible::after { content: " ▼"; font-size: 11px; }
+  .collapsible.open::after { content: " ▲"; }
+  .collapse-body { display: none; }
+  .collapse-body.open { display: block; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🎯 面试准备指南</h1>
+  <p>目标：智谱华章 · AI工程师（Vibe Coding 全栈方向） · 30-60K·16薪</p>
+</header>
+
+<!-- 整体匹配度 -->
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-primary">匹配度</span>
+    <span class="card-title">你与岗位的真实匹配度</span>
+  </div>
+  <div class="score-bar">
+    <div class="score-item score-green">Vibe Coding<br><strong>85%</strong></div>
+    <div class="score-item score-green">AI理解力<br><strong>90%</strong></div>
+    <div class="score-item score-yellow">全栈能力<br><strong>55%</strong></div>
+    <div class="score-item score-red">后端深度<br><strong>30%</strong></div>
+    <div class="score-item score-green">转型故事<br><strong>95%</strong></div>
+  </div>
+  <div class="tip">
+    <strong>总体判断：</strong>你不是这个岗位的"完美候选人"，但你是加分项里写的那个人——"有从传统前端成功转型AI全栈的经历"。你的优势是AI理解力+Vibe Coding实践+内容创作者身份，不要试图伪装成后端大牛。
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 必问题 -->
+<h2>🔴 必问题（答不好就挂）</h2>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-danger">必问</span>
+    <span class="card-title">自我介绍</span>
+  </div>
+  <div class="qa">
+    <div class="q">请做个自我介绍</div>
+    <div class="a">
+      <strong>参考话术（控制在90秒内）：</strong><br><br>
+      面试官好，我叫褚宏光，8年开发经验，软件工程硕士。<br><br>
+      前6年我是做前端开发的，Vue全家桶、TypeScript、小程序这些都比较熟练，在小熊U租（上市公司）独立完成过多个核心项目。<br><br>
+      近两年在杭州两叶科技，从前端开始转向AI工程方向。<b>我做的最核心的事情是知识工程</b>——负责公司量化投研知识卡片体系的建设，从业务公式链的梳理、卡片结构设计、质量审计到向量库同步，全流程都是我负责的，累计生产了50多张知识卡片。另外我还搭建了公司的AI Skill评估框架，用来验证Skill改动对问答效果的影响。<br><br>
+      同时我也是Vibe Coding的深度实践者，日常混合使用Claude Code、Cursor和Copilot，用AI辅助交付了评级系统Demo、技术形态识别等多个项目。业余时间我还运营一个AI工具科普账号"AI共生阁"，全平台3000多粉丝。<br><br>
+      我看到贵司招的是Vibe Coding全栈方向的AI工程师，我觉得我从前端转型到AI工程的这段经历，以及在知识工程和Skill评估上的实践，和这个岗位非常匹配。
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-danger">必问</span>
+    <span class="card-title">你怎么理解 Vibe Coding？</span>
+  </div>
+  <div class="qa">
+    <div class="q">你怎么理解 Vibe Coding？和传统开发有什么区别？</div>
+    <div class="a">
+      <strong>参考回答：</strong><br><br>
+      我理解 Vibe Coding 的核心是<b>把"写代码"这件事从"手工实现"转变为"需求描述+AI生成+人工审查"</b>。<br><br>
+      <b>关键不是AI写了多少代码，而是人能不能准确描述需求、审查质量、把控方向。</b><br><br>
+      我的实际工作流是这样的：<br>
+      1. <b>理解业务</b>：先吃透需求，这一步AI替代不了<br>
+      2. <b>任务拆解</b>：把大需求拆成AI能理解的小任务<br>
+      3. <b>Prompt + 上下文管理</b>：我会写CLAUDE.md给AI提供项目上下文，不是每次从零开始对话<br>
+      4. <b>生成+审查</b>：AI生成代码后我会看一遍，理解逻辑，有问题通过看报错信息定位后让AI修正<br>
+      5. <b>质量把控</b>：最终确保代码能跑、逻辑对、可维护<br><br>
+      和传统开发的区别是：传统是我写每一行，Vibe Coding是我做架构师+PM+code reviewer，AI做实现。<b>效率可以提升几倍，但前提是人要有业务理解力和技术判断力。</b>
+    </div>
+    <div class="tip">
+      <strong>加分回答：</strong>可以提到你运营AI工具博客的经历，说明你在持续跟踪这个领域的发展。
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-danger">必问</span>
+    <span class="card-title">你做过最复杂/最有价值的项目是什么？</span>
+  </div>
+  <div class="qa">
+    <div class="q">详细讲讲你做过最有挑战的项目</div>
+    <div class="a">
+      <strong>讲知识卡片工程（这是你最能讲的项目）：</strong><br><br>
+      <b>"我负责公司量化投研知识卡片体系的建设。"</b><br><br>
+      <b>背景：</b>公司的AI Agent需要准确回答用户的投研问题，比如"贵州茅台的PE走势"。这背后需要知识卡片来支撑——每张卡片对应一个分析维度，里面包含公式链、数据依赖、执行步骤。<br><br>
+      <b>我做了什么：</b><br>
+      · 我是卡片生产的主要负责人，从0建立了整个生产SOP<br>
+      · 先要理解业务：一个分析维度涉及哪些公式、数据源，公式之间有什么依赖关系<br>
+      · 然后在平台的低代码环境里编写公式链，验证数据正确性<br>
+      · 填写卡片结构（action_Y、data_set_output、system_cache等字段）<br>
+      · 开发了5类审计工具来检查卡片质量——action对齐性、数据名一致性、引用真实性<br>
+      · 最后同步到MongoDB和向量库，让RAG系统能检索到<br><br>
+      <b>成果：</b>累计生产50多张卡片，覆盖多个投研分析维度。我定义的SOP和审计规则，后续其他同事也在使用。<br><br>
+      <b>难点：</b>最难的不是代码，是理解金融业务。比如一个"PE估值"的卡片，你要搞清楚市盈率的计算方式、历史分位数怎么算、不同口径的差异——这些是AI帮不了你的，必须自己理解。
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 高概率问题 -->
+<h2>🟡 高概率追问</h2>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-warning">高概率</span>
+    <span class="card-title">MCP 协议相关</span>
+  </div>
+  <div class="qa">
+    <div class="q">你简历里提到了MCP协议，能讲讲你的理解吗？</div>
+    <div class="a">
+      <strong>诚实但有深度的回答：</strong><br><br>
+      MCP（Model Context Protocol）是 Anthropic 提出的一个开放协议，<b>本质上是给大模型定义了一套标准化的工具调用接口</b>，类似于AI世界的USB-C。<br><br>
+      它解决的问题是：不同的AI模型要调用外部工具（搜索、数据库查询、代码执行等），以前每家都有自己的接口格式，MCP统一了这个标准。<br><br>
+      在我们公司的场景里，MCP被用来封装公式执行服务——AI Agent需要调用runMultiFormula来计算金融指标，通过MCP协议把这个能力暴露给模型。<br><br>
+      <b>我主要是在卡片工程和Skill评估的工作中接触到MCP的</b>，了解它的协议结构和使用场景。具体的MCP服务端实现不是我写的，但我理解它的工作原理和在系统中的角色。
+    </div>
+    <div class="warn">
+      <strong>⚠️ 注意：</strong>不要说"MCP服务端是我开发的"。如果面试官追问实现细节（比如JSON-RPC、transport层），诚实说"这部分具体实现不是我负责的，我主要是作为使用方理解协议规范"。
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-warning">高概率</span>
+    <span class="card-title">技术深度追问</span>
+  </div>
+  <div class="qa">
+    <div class="q">你说你用Node.js/Python，能讲讲你最熟悉的后端技术吗？</div>
+    <div class="a">
+      <strong>诚实定位：</strong><br><br>
+      我不是传统意义上的后端工程师。<b>我的后端能力主要来自两个方面</b>：<br><br>
+      1. <b>Node.js 层面</b>：我前端做了8年，Node.js是很自然的延伸。在两叶科技参与维护公司的Node.js后端服务时，能看懂Express路由、中间件、数据库操作这些。但要我从头设计一个高并发后端架构，还不是我的强项。<br><br>
+      2. <b>Python 层面</b>：主要是在知识工程项目中用到的，写脚本处理卡片数据、调API、做数据同步。也会用AI辅助来写Python代码。<br><br>
+      <b>我的价值不在于后端深度，而在于"全栈交付能力"</b>——理解业务需求后，借助AI工具能快速把前后端都交付出来。
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="q">你的React水平怎么样？</div>
+    <div class="a">
+      <strong>诚实回答：</strong><br><br>
+      我的主力框架是Vue，React我不是很熟练。<br><br>
+      但我用Vibe Coding方式交付了一个React 19的评级系统Demo——甲方需要一个快速原型来验证需求，我通过AI工具在短时间内完成了交付，Business逻辑我都理解，代码也能看懂和修改。<br><br>
+      <b>这其实挺能说明Vibe Coding的价值的</b>：即使不是你最熟的技术栈，只要你理解业务和编程概念，用AI工具也能快速交付。当然，如果团队需要我深入React，我也有信心在短期内上手——框架的核心思想是相通的。
+    </div>
+    <div class="tip">
+      <strong>话术技巧：</strong>把"我不会React"转化为"Vibe Coding让技术栈不再是硬障碍"——这正好符合岗位理念。
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-warning">高概率</span>
+    <span class="card-title">为什么离职 / 为什么选智谱</span>
+  </div>
+  <div class="qa">
+    <div class="q">为什么想离开现在的公司？</div>
+    <div class="a">
+      <b>不说公司坏话，聚焦发展：</b><br><br>
+      两叶科技是个7人的小团队，我在这里完成了从前端到AI工程的转型，很感谢这段经历。但小团队意味着发展天花板比较明显——没有体系化的AI工程实践，更多是零散的项目。<br><br>
+      我希望进入一个<b>真正以AI为核心业务</b>的公司，能参与更系统化的AI工程建设，和更专业的团队一起工作。智谱华章是做大模型的公司，Vibe Coding方向又是我正在实践的领域，所以非常契合。
+    </div>
+  </div>
+  <div class="qa">
+    <div class="q">为什么选智谱华章？</div>
+    <div class="a">
+      三个原因：<br>
+      1. <b>AI原生公司</b>：智谱是做大模型的，在这里做Vibe Coding是在用自家模型，能第一时间接触最新能力<br>
+      2. <b>岗位方向</b>：JD里写的"沉淀Prompt模板库、AI Coding Pattern、建立团队级AI编程SOP"——这正是我在做的事情，从个人实践变成团队体系<br>
+      3. <b>成长空间</b>：加分项里提到的"架构经验+AI场景的复合成长路径"，我希望在这个方向持续发展
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 雷区 -->
+<h2>🚫 面试雷区（绝对不要说的话）</h2>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-danger">雷区</span>
+    <span class="card-title">这些话会让你直接扣分</span>
+  </div>
+  
+  <div class="danger-zone">
+    <strong>❌ "这个代码是AI帮我写的，我不太了解细节"</strong><br>
+    → 改为："这个模块我是通过AI辅助开发的，业务逻辑和整体架构我能讲清楚，具体到某些代码细节可能需要回去确认"
+  </div>
+
+  <div class="danger-zone" style="margin-top:10px">
+    <strong>❌ "我不会React / 我不懂后端 / 我没做过xxx"</strong><br>
+    → 改为："React不是我目前的主力栈，但我用Vibe Coding方式交付过React项目。在这个方向上我还在持续学习"
+  </div>
+
+  <div class="danger-zone" style="margin-top:10px">
+    <strong>❌ "我离开AI就写不了代码了"</strong><br>
+    → 你选了独立编码9/10，这是你的优势！强调："我8年的前端基本功是扎实的，AI对我来说是加速器，不是依赖"
+  </div>
+
+  <div class="danger-zone" style="margin-top:10px">
+    <strong>❌ 主动提年龄</strong><br>
+    → 绝对不要主动说"我34了年龄大了"。如果面试官提到，回应："8年经验让我在理解业务、沟通需求、设计方案上有明显优势，这在Vibe Coding中恰恰是最重要的"
+  </div>
+
+  <div class="danger-zone" style="margin-top:10px">
+    <strong>❌ 把自己定位成"前端转AI的初学者"</strong><br>
+    → 你不是初学者。你有50+张知识卡片的产出、有Skill评估框架、有自媒体实践。你是<b>"已经在做AI工程的人"</b>。
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 面试前一周准备 -->
+<h2>📆 面试前准备清单</h2>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-primary">准备</span>
+    <span class="card-title">面试前一周必做</span>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-title">理解MCP协议（2小时）</div>
+      <div class="timeline-desc">
+        读一遍 Anthropic MCP 官方文档（modelcontextprotocol.io），重点理解：协议结构、tool/resource/prompt 三要素、transport 层（stdio/HTTP）。不用写代码，能讲清楚就行。
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">复习你的知识卡片工作流（1小时）</div>
+      <div class="timeline-desc">
+        回顾 knowledge_engineer 的 CLAUDE.md 和你做过的卡片，能画出完整流程图：公式梳理 → 卡片结构 → 审计 → MongoDB → 向量库。
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">准备一个"最复杂代码"的故事（1小时）</div>
+      <div class="timeline-desc">
+        推荐讲：小熊U宝APP的"动态表单"组件封装，或者多系统免登录方案。准备好"背景→问题→方案→结果"的完整叙事。
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">了解智谱华章和GLM模型（1小时）</div>
+      <div class="timeline-desc">
+        了解智谱的产品线（ChatGLM、GLM-4、CodeGeeX等）、Vibe Coding方向的布局。面试时能说出你对他们产品的理解。
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">准备手写代码（2小时）</div>
+      <div class="timeline-desc">
+        练习：数组去重、防抖节流、深拷贝、Promise.all实现、简单的发布订阅模式。这些是前端面试高频题，不用AI能写出来。
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-title">博客发一篇Vibe Coding文章（可选但加分）</div>
+      <div class="timeline-desc">
+        在你的博客或公众号发一篇关于"Vibe Coding实战"或"MCP协议入门"的文章，面试时可以展示。
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 薪资谈判 -->
+<h2>💰 薪资谈判策略</h2>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-success">策略</span>
+    <span class="card-title">28K 目标的谈判路径</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="mini-card">
+      <h4>对方范围</h4>
+      <p>30-60K · 16薪</p>
+    </div>
+    <div class="mini-card">
+      <h4>你的目标</h4>
+      <p>28K · 希望更高</p>
+    </div>
+    <div class="mini-card">
+      <h4>建议报价</h4>
+      <p>25-30K</p>
+    </div>
+    <div class="mini-card">
+      <h4>底线</h4>
+      <p>23K（不低于此）</p>
+    </div>
+  </div>
+
+  <div class="tip" style="margin-top:16px">
+    <strong>策略：</strong><br>
+    · 不要先报价。被问时先反问："请问这个岗位的薪资结构是怎样的？"<br>
+    · 如果必须先报：说"基于我目前的薪资水平和AI工程方向的市场行情，我期望在<b>25-30K</b>的范围"<br>
+    · 不要说"我现在20K"——说"我目前的薪资和我在AI方向的投入不太匹配，所以在看新机会"<br>
+    · 16薪是大加分：28K×16=44.8万/年，vs 你现在20K×12=24万/年，已经接近翻倍
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="badge badge-success">总结</span>
+    <span class="card-title">记住这三句话</span>
+  </div>
+  <div class="a" style="font-size:16px; line-height: 2;">
+    1. <b>你的核心卖点是"AI理解力 + 业务翻译能力 + Vibe Coding交付"</b>，不是技术深度<br>
+    2. <b>知识卡片工程是你最能讲的项目</b>，面试时往这个方向引导<br>
+    3. <b>诚実 > 虚高</b>——"我是用AI辅助做的"比"我独立开发的"在面试中更安全，因为这个岗位本来就是招会用AI的人
+  </div>
+</div>
+
+</div>
+</body>
+</html>
